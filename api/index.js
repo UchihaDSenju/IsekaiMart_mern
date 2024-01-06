@@ -24,3 +24,13 @@ app.use(express.json()) // By default server soesnot take json as input but usin
 // So we split it into index -> routes -> controllers whenever we navigate to that particular server
 app.use('/api/function', testRouter)
 app.use('/api/auth', authRouter);
+
+app.use((err, req, res, next) => {
+    const statusCode = err.statusCode || 500;
+    const message = err.message || "Internal server error";
+    return res.status(statusCode).json({
+        success: fail,
+        statusCode,
+        message
+    })
+})// This is a middleware that we have defined so wherever we call next(error) this error handling runs
