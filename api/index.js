@@ -29,8 +29,11 @@ app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
     const message = err.message || "Internal server error";
     return res.status(statusCode).json({
-        success: fail,
+        success: false,
         statusCode,
         message
     })
 })// This is a middleware that we have defined so wherever we call next(error) this error handling runs
+app.use(function (req, res) { 
+    res.status(401).json({ error: "Page not Found" }); 
+})// This is another middleware which is used if a page is not found

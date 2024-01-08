@@ -1,5 +1,6 @@
 import userModel from "../models/user.model.js";
 import bcryptjs from 'bcryptjs';
+import { errorHandler } from "../utils/errorHAndler.js";
 
 export const signup = async (req, res, next) => {
     console.log(req.body);// Shows the json file from postman in the console
@@ -10,7 +11,6 @@ export const signup = async (req, res, next) => {
         await newUser.save();
         res.status(201).json("User created Successfully");
     } catch (error) {
-        // next(error)
-        res.status(500).json(error.message)
+        next(error)
     }
 }
