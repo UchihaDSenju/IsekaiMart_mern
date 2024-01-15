@@ -27,7 +27,7 @@ app.use('/api/auth', authRouter);
 
 app.use((err, req, res, next) => {
     const statusCode = err.statusCode || 500;
-    const message = err.message || "Internal server error";
+    const message = err.message || "Internal server error";// get from the errorHandler that we defined if we have passed it as a parameter
     return res.status(statusCode).json({
         success: false,
         statusCode,
