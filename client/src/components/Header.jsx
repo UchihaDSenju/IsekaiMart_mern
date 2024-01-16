@@ -18,7 +18,7 @@ function Header() {
         <div className='flex gap-2'>
           <Link to={'/'}><h1 className='hidden sm:inline hover:cursor-pointer hover:underline'>Home</h1></Link>
           <Link to={'/about'}><h1 className='hidden sm:inline hover:cursor-pointer hover:underline'>About</h1></Link>
-          <Link to={'/sign-in'}><h1 className='hover:cursor-pointer hover:underline'>SignIn</h1></Link>
+          <Link to={'/signin'}><h1 className='hover:cursor-pointer hover:underline'>SignIn</h1></Link>
         </div>
     </header>
   )

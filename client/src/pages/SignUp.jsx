@@ -24,7 +24,7 @@ export default function SignUp() {
       setLoading(false);
       console.log(data);
       if(data.success === false){
-        setError(data.message)
+        setError(data.message)// from the error handling middleware
         setLoading(false)
         return;
       }
@@ -46,7 +46,7 @@ export default function SignUp() {
       </form>
       <div>
         <div className='flex gap-2 mt-3'>
-          <p>Already a member</p> <Link to={'/sign-in'}><span className='text-blue-500'>Sign In</span></Link>
+          <p>Already a member</p> <Link to={'/signin'}><span className='text-blue-500'>Sign In</span></Link>
         </div>
         {error && <p className='text-red-400'>{error}</p>}
       </div>

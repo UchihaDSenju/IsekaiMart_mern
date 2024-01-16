@@ -20,11 +20,11 @@ export const signin = async (req, res, next) => {
     try {
         const validUser = await userModel.findOne({email});
         if(!validUser){
-            next(errorHandler(404, 'User not found'))
+            return next(errorHandler(404, 'User not found'))
         }
         const isValidPassword = bcryptjs.compareSync(password, validUser.password);
         if(!isValidPassword){
-            next(errorHandler(401, 'Wrong credentials'));
+            return next(errorHandler(401, 'Wrong credentials'));
         }
         const token = jwt.sign({id: validUser._id}, "bh145672hsftwj458982jy", {expiresIn: '10h'}); // jwt.sign({payload in string}, key to hash the payload)
         const {password: pass, ...rest} = validUser._doc;// stores the data in the ...rest but removes the password field
