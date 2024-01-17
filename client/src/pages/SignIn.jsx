@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { signInStart, signInSuccess, signInError } from '../redux/user/userSlice';
 
 export default function SignIn() {
+  const dispatch = useDispatch()
   const[formData, setFormData] = useState({});
-  const[error, setError] = useState(null);
-  const[loading, setLoading] = useState(false);
+  // const[error, setError] = useState(null);
+  // const[loading, setLoading] = useState(false);
+  const {error, loading} = useSelector((state) => state.user)// Takes the values[error and loading] from the initialState in userSLice throught the reducers that we defined in the store with the name of user(we can read data from the store using useSelector)
   const navigate = useNavigate();
   const formHandler = (e) => {
     setFormData({...formData, [e.target.id]: e.target.value})
@@ -12,7 +16,7 @@ export default function SignIn() {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      setLoading(true)
+      dispatch(signInStart());
       const res = await fetch('/api/auth/signin',{
         method: 'POST',// Default is GET so we use the options parameters of fetch() to edit configurations 
         headers:{
@@ -20,18 +24,16 @@ export default function SignIn() {
         },
         body: JSON.stringify(formData),// Only string values can be sent through http
       })
-      const data = await res.json(); // returns error json or sign in success message as we have made it to return
-      setLoading(false);
+      const data = await res.json(); // returns error json or sign in success message as we have made it to return 
       console.log(data);
       if(data.success === false){
-        setError(data.message)// from the error handling middleware
-        setLoading(false)
+        dispatch(signInError(data.message))
         return;
       }
-      setError(null)
+      dispatch(signInSuccess(data))// we pass in the json that we received
       navigate('/')
     } catch (error) {
-      setLoading(false)
+      dispatch(signInError(error.message))
       console.error(error);
     }
   }
